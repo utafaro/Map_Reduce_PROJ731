@@ -35,7 +35,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // Exemple Splitting
+        // Exemple Mapping
         List<String> texts = Arrays.asList(
                 "Premier texte. Premier texte avec des mots.",
                 "Deuxième texte avec d'autres mots.",
