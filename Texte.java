@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Texte {
 
@@ -32,13 +34,13 @@ public class Texte {
         return texte;
     }
 
-    public String[] diviserEnParties(int nombreDeParties) {
+    public List<String> diviserEnParties(int nombreDeParties) {
+        List<String> parties = new ArrayList<>();
         if (texte == null || texte.isEmpty() || nombreDeParties <= 0) {
             // Gérer le cas où le texte est vide ou le nombre de parties est invalide
-            return null;
+            return parties;
         }
 
-        String[] parties = new String[nombreDeParties];
         int longueurDuTexte = texte.length();
         int tailleDeLaPartie = longueurDuTexte / nombreDeParties;
 
@@ -47,12 +49,12 @@ public class Texte {
 
         for (int i = 0; i < nombreDeParties - 1; i++) {
             indexFin = trouverIndexFin(texte, indexDebut + tailleDeLaPartie);
-            parties[i] = texte.substring(indexDebut, indexFin);
+            parties.add(texte.substring(indexDebut, indexFin));
             indexDebut = indexFin + 1;  // +1 pour sauter l'espace
         }
 
         // La dernière partie peut être un peu plus longue pour gérer la division non exacte
-        parties[nombreDeParties - 1] = texte.substring(indexDebut);
+        parties.add(texte.substring(indexDebut));
 
         return parties;
     }
@@ -68,10 +70,10 @@ public class Texte {
         Texte texte = new Texte(cheminFichier);
 
         // Diviser le texte en 3 parties
-        String[] parties = texte.diviserEnParties(3);
-
+        List<String> parties = texte.diviserEnParties(3);
+        System.out.println(parties.size());
         // Afficher les parties résultantes
-        System.out.println(parties);
+
 
     }
 }
