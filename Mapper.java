@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class Mapper {
 
 
+    public Mapper(){}
 
     public ArrayList<String> mapping(String text) {
 
@@ -20,8 +21,19 @@ public class Mapper {
             words.add(matcher.group());
         }
 
-        System.out.println(words);
+        words = convertToLowerCase(words);
+
         return words;
 
+    }
+
+    private static ArrayList<String> convertToLowerCase(List<String> wordsList) {
+        ArrayList<String> lowercaseList = new ArrayList<>();
+
+        for (String word : wordsList) {
+            lowercaseList.add(word.toLowerCase());
+        }
+
+        return lowercaseList;
     }
 }
