@@ -1,28 +1,27 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Mapper {
 
 
 
-    public ArrayList<Map<String, Integer>> mapping(String text) {
-        ArrayList<Map<String, Integer>> result = new ArrayList<>();
+    public ArrayList<String> mapping(String text) {
 
 
-        // Diviser le texte en mots
-        String[] words = text.split("\\s+"); // Utilisez une expression régulière pour diviser par espace
+        // Créer une Map pour stocker les occurrences de mots
+        ArrayList<String> words = new ArrayList<>();
 
-        // Parcourir chaque mot dans le texte
-        for (String word : words) {
+        // Utiliser une expression régulière pour trouver tous les mots dans le texte
+        Pattern pattern = Pattern.compile("\\b\\w+\\b");
+        Matcher matcher = pattern.matcher(text);
 
-            // Mettre à jour le compteur pour ce mot
-            Map<String, Integer> wordCountMap = new HashMap<>();
-            wordCountMap.put(word, 1);
-            result.add(wordCountMap);
-
+        while (matcher.find()) {
+            words.add(matcher.group());
         }
 
-        // Afficher les résultats intermédiaires (étape Map)
-        System.out.println(result);
-        return result;
+        System.out.println(words);
+        return words;
+
     }
 }
