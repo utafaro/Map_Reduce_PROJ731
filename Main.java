@@ -22,31 +22,52 @@ public class Main {
         test.add("je ne suis pas pd");
         // Diviser le texte en 3 parties
         List<String> parties = texte.diviserEnParties(3);
-        Mapper map = new Mapper();
-        ArrayList<MonThread> listThread = new ArrayList<MonThread>();
+        Mapper mapper = new Mapper();
+        ArrayList<MapperThread> listMapThread = new ArrayList<MapperThread>();
+        ArrayList<ReducerThread> listReduceThread = new ArrayList<ReducerThread>();
         ArrayList<Map<String, Integer>> mapResults = new ArrayList<Map<String, Integer>>();
 
         Reducer reducer = new Reducer();
         ArrayList<String> listTest = new ArrayList<String>();
-
+        ArrayList<ArrayList<String>> intermediateResults = new ArrayList<ArrayList<String>>();
+        int numReducer = 3;
+        ArrayList<Map<String,Integer>> reducerResults = new ArrayList<Map<String, Integer>>();
 
 
 
 
         try{
             for (int i=0; i< test.size(); i++){
-                MonThread thread = new MonThread(map, test.get(i));
+                MapperThread thread = new MapperThread(mapper, test.get(i));
                 thread.start();
-                listThread.add(thread);
+                listMapThread.add(thread);
             }
-            for(MonThread thread : listThread){
+            for(MapperThread thread : listMapThread){
                 thread.join();
+                intermediateResults.add(thread.getMapResult());
             }
+            for(int i=0; i<numReducer; i++ ){
+                ReducerThread thread = new ReducerThread(reducer, intermediateResults.get(i));
+                thread.start();
+                listReduceThread.add(thread);
+
+            }
+            for (ReducerThread thread: listReduceThread){
+                thread.join();
+                reducerResults.add(thread.getReducerResults());
+            }
+
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Reducer : " + reducer.reducing(listTest) );
+        Map<String, Integer> finalResult = new HashMap<String, Integer>();
+        for(Map<String, Integer> map: reducerResults){
+           finalResult.putAll(map);
+        }
+
+        System.out.println(finalResult);
 
 
 
