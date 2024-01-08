@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -65,15 +66,5 @@ public class Texte {
         return (indexEspace != -1) ? indexEspace : texte.length();
     }
 
-    public static void main(String[] args) {
-        String cheminFichier = "fichiers/shakespears.txt";
-        Texte texte = new Texte(cheminFichier);
 
-        // Diviser le texte en 3 parties
-        List<String> parties = texte.diviserEnParties(3);
-        System.out.println(parties.size());
-        // Afficher les parties résultantes
-
-
-    }
 }
