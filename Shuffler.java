@@ -2,9 +2,27 @@
 import java.util.*;
 
 public class Shuffler {
+    public List<String> getListe_a_e() {
+        return liste_a_e;
+    }
+
+    private List<String> liste_a_e;
+
+    public List<String> getListe_f_l() {
+        return liste_f_l;
+    }
+
+    private List<String> liste_f_l;
+
+    public List<String> getListe_m_z() {
+        return liste_m_z;
+    }
+
+    private List<String> liste_m_z;
 
 
-    public void trierMots(List<String> listeMots,List<String> liste_a_e,List<String> liste_f_l,List<String> liste_m_z) {
+
+    public void trierMots(List<String> listeMots) {
         for(String mot:listeMots){
             char premiereLettre = mot.charAt(0);
             if (premiereLettre >= 'a' && premiereLettre <= 'e') {
@@ -22,7 +40,9 @@ public class Shuffler {
 
 
 
-}}
+}
+
+}
 
 
 
