@@ -4,6 +4,16 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
+    private static int hash(String word) {
+        // Utiliser la fonction hashCode() de la chaîne
+        int hashCode = word.hashCode();
+
+        // Appliquer des opérations pour garantir la distribution équitable
+        int modifiedHashCode = (hashCode ^ (hashCode >>> 16)) & 0x7fffffff;
+
+        // Redimensionner pour ajuster à la plage souhaitée
+        return modifiedHashCode % 128;
+    }
 
 
 
@@ -27,6 +37,10 @@ public class Main {
         ArrayList<ReducerThread> listReduceThread = new ArrayList<ReducerThread>();
         ArrayList<Map<String, Integer>> mapResults = new ArrayList<Map<String, Integer>>();
 
+        ArrayList<String>listReducer1=new ArrayList<String>();
+        ArrayList<String>listReducer2=new ArrayList<String>();
+        ArrayList<String>listReducer3=new ArrayList<String>();
+
         Reducer reducer = new Reducer();
         ArrayList<String> listTest = new ArrayList<String>();
         ArrayList<ArrayList<String>> intermediateResults = new ArrayList<ArrayList<String>>();
@@ -43,9 +57,29 @@ public class Main {
                 listMapThread.add(thread);
             }
             for(MapperThread thread : listMapThread){
+                ArrayList<String> words= thread.getMapResult();
+                for(String word:words){
+
+                    int hw=hash(word);
+                    if (0 <= hw && hw < 43){
+                        listReducer1.add(word);
+
+                    } else if (43 <= hw && hw < 86) {
+                        listReducer2.add(word);
+
+                    }
+                    else {
+                        listReducer3.add(word);
+                    }
+                }
+
                 thread.join();
-                intermediateResults.add(thread.getMapResult());
+
             }
+
+            intermediateResults.add(listReducer1);
+            intermediateResults.add(listReducer2);
+            intermediateResults.add(listReducer3);
             for(int i=0; i<numReducer; i++ ){
                 ReducerThread thread = new ReducerThread(reducer, intermediateResults.get(i));
                 thread.start();

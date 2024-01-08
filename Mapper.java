@@ -4,6 +4,17 @@ import java.util.regex.Pattern;
 
 public class Mapper {
 
+    private static int hash(String word) {
+        // Utiliser la fonction hashCode() de la chaîne
+        int hashCode = word.hashCode();
+
+        // Appliquer des opérations pour garantir la distribution équitable
+        int modifiedHashCode = (hashCode ^ (hashCode >>> 16)) & 0x7fffffff;
+
+        // Redimensionner pour ajuster à la plage souhaitée
+        return modifiedHashCode % 128;
+    }
+
 
     public Mapper(){}
 
@@ -23,7 +34,16 @@ public class Mapper {
 
         words = convertToLowerCase(words);
 
+
+
+
+
+
+
+
+
         return words;
+
 
     }
 
