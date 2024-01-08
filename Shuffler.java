@@ -4,6 +4,7 @@ import java.util.*;
 public class Shuffler {
     public List<String> getListe_a_e() {
         return liste_a_e;
+
     }
 
     private List<String> liste_a_e;
