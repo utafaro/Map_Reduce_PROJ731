@@ -36,6 +36,7 @@ public class Main {
     public static void main (String[] args){
 
 
+        long startTime = System.currentTimeMillis();
 
 
         ArrayList<String> filesName = new ArrayList<String>();
@@ -72,7 +73,7 @@ public class Main {
 
 
         // Diviser le texte en 3 parties
-        List<String> parties = texte.diviserEnParties(3);
+        List<String> parties = texte.diviserEnParties(5);
         Mapper mapper = new Mapper();
         ArrayList<MapperThread> listMapThread = new ArrayList<MapperThread>();
         ArrayList<ReducerThread> listReduceThread = new ArrayList<ReducerThread>();
@@ -146,6 +147,11 @@ public class Main {
         System.out.println(finalResult);
 
 
+        long endTime = System.currentTimeMillis();
+
+        long excutionTime  = endTime - startTime;
+
+        System.out.println("Temps d'execution : " + excutionTime*0.001 + " s");
 
 
 
