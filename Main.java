@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Main {
@@ -15,21 +13,64 @@ public class Main {
         return modifiedHashCode % 128;
     }
 
-
+    public static void concatenateFiles(ArrayList<String> fileNames, String outputFileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
+            for (String fileName : fileNames) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Erreur de lecture du fichier : " + fileName);
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erreur d'écriture dans le fichier de sortie : " + outputFileName);
+            e.printStackTrace();
+        }
+}
 
     public static void main (String[] args){
 
 
 
 
+        ArrayList<String> filesName = new ArrayList<String>();
 
-        String cheminFichier = "fichiers/shakespears.txt";
-        Texte texte = new Texte(cheminFichier);
+        String fichier1 = "fichiers/shakespears.txt";
+        String fichier2 = "fichiers/shakespears.txt";
+        String fichier3 = "fichiers/shakespears.txt";
+        String fichier4 = "fichiers/shakespears.txt";
+        String fichier5 = "fichiers/shakespears.txt";
+        String fichier6 = "fichiers/bible.txt";
+        String fichier7 = "fichiers/bible.txt";
+        String fichier8 = "fichiers/bible.txt";
+        String fichier9 = "fichiers/bible.txt";
+        String fichier10 = "fichiers/bible.txt";
+        String fichier11= "fichiers/bible.txt";
 
-        List<String> test = new ArrayList<>();
-        test.add("Bonjour je suis ugo je je");
-        test.add("La savoie c'est cool");
-        test.add("je ne suis pas pd");
+
+        filesName.add(fichier1);
+        filesName.add(fichier2);
+        filesName.add(fichier3);
+        filesName.add(fichier4);
+        filesName.add(fichier5);
+        filesName.add(fichier6);
+        filesName.add(fichier7);
+        filesName.add(fichier8);
+        filesName.add(fichier9);
+        filesName.add(fichier10);
+        filesName.add(fichier11);
+
+        concatenateFiles(filesName, "fichiers/concatenateFile.txt");
+
+        String file_path = "fichiers/concatenateFile.txt";
+        Texte texte = new Texte(file_path);
+
+
         // Diviser le texte en 3 parties
         List<String> parties = texte.diviserEnParties(3);
         Mapper mapper = new Mapper();
@@ -51,12 +92,14 @@ public class Main {
 
 
         try{
-            for (int i=0; i< test.size(); i++){
-                MapperThread thread = new MapperThread(mapper, test.get(i));
+            for (int i=0; i< parties.size(); i++){
+                MapperThread thread = new MapperThread(mapper, parties.get(i));
                 thread.start();
                 listMapThread.add(thread);
             }
             for(MapperThread thread : listMapThread){
+
+                thread.join();
                 ArrayList<String> words= thread.getMapResult();
                 for(String word:words){
 
@@ -73,7 +116,6 @@ public class Main {
                     }
                 }
 
-                thread.join();
 
             }
 

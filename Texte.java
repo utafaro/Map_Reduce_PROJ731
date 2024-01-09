@@ -51,7 +51,7 @@ public class Texte {
         for (int i = 0; i < nombreDeParties - 1; i++) {
             indexFin = trouverIndexFin(texte, indexDebut + tailleDeLaPartie);
             parties.add(texte.substring(indexDebut, indexFin));
-            indexDebut = indexFin + 1;  // +1 pour sauter l'espace
+            indexDebut = indexFin + 1;
         }
 
         // La dernière partie peut être un peu plus longue pour gérer la division non exacte
